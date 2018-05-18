@@ -1,0 +1,10 @@
+{
+  "dir": "RELATIVE_PATH_FROM_PARENT_DIR",
+  "ftp": {
+    "host": "127.0.0.1",
+    "port": "22",
+    "username": "",
+    "password": "",
+    "path": "FULL_SERVER_PATH"
+  }
+}
