@@ -1,5 +1,5 @@
 {
-  "dir": "./dev", // Path from this dir
+  "dir": "./dist", // Path from this dir
   "ftp": {
 //    "host": "127.0.0.1",
 //    "port": "22",

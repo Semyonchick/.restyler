@@ -1,8 +1,18 @@
 import './scss/app.scss'
 import './js/app'
 
-let svgs = require.context('./icons', false, /\.svg$/)
-console.log(svgs)
+// Uncomment for use sprite
+// require.context('./icons', false, /\.svg$/)
+// let ajax = new XMLHttpRequest();
+// ajax.open("GET", 'DIR/sprite.svg', true);
+// ajax.send();
+// ajax.onload = function (e) {
+//   let div = document.createElement("div");
+//   div.innerHTML = ajax.responseText;
+//   div.classList.add('spriteContainer');
+//   div.style.display = 'none';
+//   document.body.insertBefore(div, document.body.childNodes[0]);
+// }
 
 if (!PRODUCTION) {
   const liveReload = document.createElement('script')
