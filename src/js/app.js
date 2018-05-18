@@ -1,0 +1,284 @@
+import $ from 'jquery';
+import whatInput from 'what-input';
+
+window.$ = $;
+
+import Foundation from 'foundation-sites';
+// If you want to pick and choose which modules to include, comment out the above and uncomment
+// the line below
+//import './lib/foundation-explicit-pieces';
+import Swiper from 'swiper/dist/js/swiper.js';
+import SimpleScrollbar from 'simple-scrollbar/simple-scrollbar.js';
+
+document.addEventListener('DOMContentLoaded', function(event) {
+
+  $(document).foundation();
+
+  //------------------------------------------------------------------------//
+  //Banner slider
+  let bannerSwiper = new Swiper('.banner-slider', {
+    // Optional parameters
+    loop: true,
+    pagination: {
+      el: '.banner-slider .swiper-pagination',
+      clickable: true
+    }
+  });
+
+  //------------------------------------------------------------------------//
+  //Goods slider
+  let goodsSwiper = new Swiper('#goods-slider', {
+    slidesPerView: 4,
+    slidesPerGroup: 4,
+    loop: true,
+    autoHeight: true,
+    // loopFillGroupWithBlank: true,
+    navigation: {
+      nextEl: '#goods-slider-next',
+      prevEl: '#goods-slider-prev'
+    },
+    pagination: {
+      el: '#goods-slider-pagination',
+      clickable: true
+    },
+    breakpoints: {
+      543: {
+        // when window width is <= 543px
+        slidesPerView: 1,
+        slidesPerGroup: 1
+      },
+      763: {
+        slidesPerView: 2,
+        slidesPerGroup: 2
+      },
+      1023: {
+        slidesPerView: 3,
+        slidesPerGroup: 3
+      }
+    }
+  });
+  //------------------------------------------------------------------------//
+
+  //------------------------------------------------------------------------//
+  //Articles slider
+  let articlesSwiper = new Swiper('.articles-slider', {
+    slidesPerView: 2,
+    slidesPerGroup: 2,
+    spaceBetween: 20,
+    loop: true,
+    autoHeight: true,
+    // loopFillGroupWithBlank: true,
+    navigation: {
+      nextEl: '#articles-slider-next',
+      prevEl: '#articles-slider-prev'
+    },
+    pagination: {
+      el: '#articles-slider-pagination',
+      clickable: true
+    },
+    breakpoints: {
+      1023: {
+        // when window width is <= 1023px
+        slidesPerView: 1,
+        slidesPerGroup: 1
+      }
+    }
+  });
+  //------------------------------------------------------------------------//
+
+  //------------------------------------------------------------------------//
+  //Counter
+  let increments = document.querySelectorAll('.counter-button.plus'),
+    decrements = document.querySelectorAll('.counter-button.minus'),
+    i;
+
+  for (i = 0; i < increments.length; i++) {
+    increments[i].addEventListener('click', function(e) {
+      e.preventDefault();
+
+      let counterInput = this.parentElement.firstElementChild;
+
+      if (counterInput.classList.contains('counter-input') && counterInput.value < 1001) {
+        counterInput.value++;
+      }
+    });
+  }
+
+  for (i = 0; i < decrements.length; i++) {
+    decrements[i].addEventListener('click', function(e) {
+      e.preventDefault();
+
+      let counterInput = this.parentElement.firstElementChild;
+
+      if (counterInput.classList.contains('counter-input') && counterInput.value > 1) {
+        counterInput.value--;
+      }
+    });
+  }
+  //------------------------------------------------------------------------//
+
+  //------------------------------------------------------------------------//
+  //Similar slider
+  let similarSwiper = new Swiper('#similar-slider', {
+    slidesPerView: 3,
+    slidesPerGroup: 3,
+    loop: true,
+    autoHeight: true,
+    // navigation: {
+    //   nextEl: '#similar-slider-next',
+    //   prevEl: '#similar-slider-prev'
+    // },
+    // pagination: {
+    //   el: '#similar-slider-pagination',
+    //   clickable: true
+    // },
+    breakpoints: {
+      543: {
+        // when window width is <= 543px
+        slidesPerView: 1,
+        slidesPerGroup: 1
+      },
+      639: {
+        slidesPerView: 2,
+        slidesPerGroup: 2
+      },
+      799: {
+        slidesPerView: 1,
+        slidesPerGroup: 1
+      },
+      1199: {
+        slidesPerView: 2,
+        slidesPerGroup: 2
+      }
+    }
+  });
+  //------------------------------------------------------------------------//
+
+  //------------------------------------------------------------------------//
+  //Promotion sliders
+  let promotionSwiper = new Swiper('#promotion-slider', {
+    slidesPerView: 4,
+    slidesPerGroup: 4,
+    loop: true,
+    autoHeight: true,
+    // loopFillGroupWithBlank: true,
+    pagination: {
+      el: '#promotion-slider-pagination',
+      clickable: true
+    },
+    breakpoints: {
+      543: {
+        // when window width is <= 543px
+        slidesPerView: 1,
+        slidesPerGroup: 1
+      },
+      763: {
+        slidesPerView: 2,
+        slidesPerGroup: 2
+      },
+      1023: {
+        slidesPerView: 3,
+        slidesPerGroup: 3
+      }
+    }
+  });
+
+  let promotionSecondSwiper = new Swiper('#promotion-slider-2', {
+    slidesPerView: 4,
+    slidesPerGroup: 4,
+    loop: true,
+    autoHeight: true,
+    // loopFillGroupWithBlank: true,
+    pagination: {
+      el: '#promotion-slider-2-pagination',
+      clickable: true
+    },
+    breakpoints: {
+      543: {
+        // when window width is <= 543px
+        slidesPerView: 1,
+        slidesPerGroup: 1
+      },
+      763: {
+        slidesPerView: 2,
+        slidesPerGroup: 2
+      },
+      1023: {
+        slidesPerView: 3,
+        slidesPerGroup: 3
+      }
+    }
+  });
+  //------------------------------------------------------------------------//
+
+  //------------------------------------------------------------------------//
+  //Expand table
+  let expandTables = document.querySelectorAll('.table-expand');
+
+  Array.prototype.forEach.call(expandTables, function(expandTable) {
+    let tableItems = expandTable.querySelectorAll('.table-item');
+
+    Array.prototype.forEach.call(tableItems, function(tableItem) {
+      tableItem.addEventListener('click', function(event) {
+        let target = event.target,
+          tableItemContent = this.nextElementSibling;
+
+        while (target) {
+          if (target.classList.contains('close-button') || target.classList.contains('repeat-button')) {
+            if (target.classList.contains('close-button')) {
+              tableItemContent.style = 'display: none;';
+            }
+            return false;
+          } else {
+            target = target.parentElement;
+          }
+        }
+
+        this.classList.toggle('is-active');
+        tableItemContent.classList.toggle('is-active');
+
+        event.preventDefault();
+      });
+    });
+  });
+  //------------------------------------------------------------------------//
+
+  //------------------------------------------------------------------------//
+  //Filter tooltips
+  // let filterCheckboxes = document.querySelectorAll('.filter input.checkbox');
+
+  // Array.prototype.forEach.call(filterCheckboxes, function(element) {
+  //   element.addEventListener('click', function() {
+  //     let _this = this,
+  //       tooltip = new Foundation.Tooltip(_this.nextElementSibling.querySelector('.filter-tooltip'), {});
+  //     console.log(tooltip);
+
+  //     if (this.checked) {
+  //       tooltip.foundation('show');
+  //     }
+  //   });
+  // });
+  //------------------------------------------------------------------------//
+
+  //------------------------------------------------------------------------//
+  //Product gallery
+  let productGallery = new Swiper('#product-gallery', {
+    spaceBetween: 10,
+    navigation: {
+      nextEl: '#product-gallery-next',
+      prevEl: '#product-gallery-prev'
+    }
+  });
+  let galleryThumbs = new Swiper('#product-gallery-thumbs', {
+    spaceBetween: 19,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    touchRatio: 0.2,
+    slideToClickedSlide: true
+  });
+  if(productGallery.controller)
+    productGallery.controller.control = galleryThumbs;
+  if(galleryThumbs.controller)
+    galleryThumbs.controller.control = productGallery;
+  //------------------------------------------------------------------------//
+});
