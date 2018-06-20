@@ -2,11 +2,12 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-import vueComponents from './components'
+const vueComponents = []
 
 Vue.use(VueAxios, axios.create({
-  baseURL: 'http://promgo.rere/'
+  baseURL: ''
 }))
+
 
 document.addEventListener('DOMContentLoaded', function () {
   vueComponents.forEach(component => {

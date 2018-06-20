@@ -1,7 +1,7 @@
 module.exports = (env, argv) => {
   const production = argv.mode === 'production'
 
-  const config = require(production ? './config.prod.json' : './config.dev.json')
+  const config = require('./build.config.js')
   const packageJson = require('./package.json')
 
   const path = require('path')
@@ -9,10 +9,8 @@ module.exports = (env, argv) => {
   const resultPath = path.resolve(__dirname, config.dir)
   const MiniCssExtractPlugin = require('mini-css-extract-plugin')
   const CleanWebpackPlugin = require('clean-webpack-plugin')
-  const LiveReloadPlugin = require('webpack-livereload-plugin')
   const CopyWebpackPlugin = require('copy-webpack-plugin')
-  const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
-  const WebpackFtpUpload = require('webpack-ftp-upload-plugin')
+  // const WebpackFtpUpload = require('webpack-ftp-upload-plugin')
   const autoprefixer = require('autoprefixer')
   const cssnano = require('cssnano')
   const {VueLoaderPlugin} = require('vue-loader')
@@ -20,24 +18,21 @@ module.exports = (env, argv) => {
   return {
     output: {
       filename: 'app.js',
-      path: resultPath,
-      publicPath: '/'
+      path: production ? resultPath : '/',
+      publicPath: '/',
+      library: 'rere'
     },
-    devtool: argv.mode === 'production' ? false : 'inline-source-map',
-    plugins: [].concat(new MiniCssExtractPlugin({filename: 'app.css'}),
+    devtool: production ? false : 'inline-source-map',
+    plugins: [].concat(
+      new MiniCssExtractPlugin({filename: 'app.css'}),
       new CopyWebpackPlugin([{from: 'static', to: '.'}]),
-      new SpriteLoaderPlugin({plainSprite: true}),
-      new LiveReloadPlugin({delay: 100}),
       new VueLoaderPlugin(),
       new webpack.DefinePlugin({
-        'DIR': config.dir,
-        'PRODUCTION': JSON.stringify(production),
-        'VERSION': JSON.stringify(packageJson.version)
+        'DIR': JSON.stringify(config.dir),
+        'PRODUCTION': production,
+        'VERSION': JSON.stringify(packageJson.version),
       }),
-      !production && config.ftp ? new WebpackFtpUpload(Object.assign({
-        local: resultPath
-      }, config.ftp)) : [],
-      production ? new CleanWebpackPlugin([resultPath + '/*'], {allowExternal: true}) : []
+      production ? new CleanWebpackPlugin([resultPath+'/*'], {allowExternal: true}) : [],
     ),
     resolve: {
       alias: {
@@ -47,7 +42,15 @@ module.exports = (env, argv) => {
     module: {
       rules: [{
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            scss: 'fast-sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        }
       }, {
         test: /\.s?css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', {
@@ -65,10 +68,7 @@ module.exports = (env, argv) => {
         test: /icons.+\.svg$/,
         use: [].concat({
             loader: 'svg-sprite-loader',
-            options: {
-              // spriteModule: {},
-              extract: true
-            }
+            options: {}
           },
           'svg-fill-loader',
           production ? {
