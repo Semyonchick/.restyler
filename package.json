@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "npm run watch",
     "dev": "webpack --mode development",
-    "watch": "webpack --mode development --watch",
+    "watch": "webpack-dev-server --mode development",
     "build": "webpack --mode production"
   },
   "browserslist": [

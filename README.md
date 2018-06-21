@@ -8,14 +8,9 @@
 
 ### подключение стилей для Bitrix
 ```php
-if (isset($_GET['dev'])) {
-    $_SESSION['DEV'] = $_GET['dev'] && is_numeric($_GET['dev']) ? 'http://localhost:' . $_GET['dev'] : false;
-}
-if ($USER->IsAdmin() && ($dev = $_SESSION['DEV'])) {
-    \Bitrix\Main\Page\Asset::getInstance()->addCss($dev . '/app.css');
-    \Bitrix\Main\Page\Asset::getInstance()->addJs($dev . '/app.js');
-} else {
-    \Bitrix\Main\Page\Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/assets/app.css');
-    \Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/assets/app.js');
-}
+if (isset($_GET['dev'])) $_SESSION['DEV'] = $_GET['dev'] && is_numeric($_GET['dev']) ? 'http://localhost:' . $_GET['dev'] : false;
+$path = $USER->IsAdmin() && $_SESSION['DEV'] ? $_SESSION['DEV'] : SITE_TEMPLATE_PATH . '/assets';
+
+\Bitrix\Main\Page\Asset::getInstance()->addCss($path . '/app.css');
+\Bitrix\Main\Page\Asset::getInstance()->addJs($path . '/app.js');
 ```
