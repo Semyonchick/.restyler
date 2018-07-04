@@ -30,9 +30,9 @@ module.exports = (env, argv) => {
       new webpack.DefinePlugin({
         'DIR': JSON.stringify(config.dir),
         'PRODUCTION': production,
-        'VERSION': JSON.stringify(packageJson.version),
+        'VERSION': JSON.stringify(packageJson.version)
       }),
-      production ? new CleanWebpackPlugin([resultPath+'/*'], {allowExternal: true}) : [],
+      production ? new CleanWebpackPlugin([resultPath + '/*'], {allowExternal: true}) : []
     ),
     resolve: {
       alias: {
@@ -45,12 +45,17 @@ module.exports = (env, argv) => {
         loader: 'vue-loader',
         options: {
           loaders: {
+            js: 'babel-loader',
             scss: 'fast-sass-loader',
             options: {
               sourceMap: true
             }
           }
         }
+      }, {
+        test: /\.js?$/,
+        exclude: /(node_modules)/,
+        loader: 'babel-loader'
       }, {
         test: /\.s?css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', {
