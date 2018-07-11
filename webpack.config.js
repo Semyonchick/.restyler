@@ -23,6 +23,11 @@ module.exports = (env, argv) => {
       library: 'rere'
     },
     devtool: production ? false : 'inline-source-map',
+    devServer: {
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    },
     plugins: [].concat(
       new MiniCssExtractPlugin({filename: 'app.css'}),
       new CopyWebpackPlugin([{from: 'static', to: '.'}]),
