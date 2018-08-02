@@ -14,6 +14,7 @@ module.exports = (env, argv) => {
   const autoprefixer = require('autoprefixer')
   const cssnano = require('cssnano')
   const {VueLoaderPlugin} = require('vue-loader')
+  const HtmlWebpackPlugin = require('html-webpack-plugin');
 
   return {
     output: {
@@ -36,6 +37,9 @@ module.exports = (env, argv) => {
         'DIR': JSON.stringify(config.dir),
         'PRODUCTION': production,
         'VERSION': JSON.stringify(packageJson.version)
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/index.html',
       }),
       production ? new CleanWebpackPlugin([resultPath + '/*'], {allowExternal: true}) : []
     ),

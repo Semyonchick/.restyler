@@ -1,5 +1,5 @@
 import './style/app.scss'
-import './js/app'
+// import './js/app'
 // Uncomment for use vue
 // import './js/vue-init'
 // Uncomment for use sprite
