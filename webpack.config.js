@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
   const autoprefixer = require('autoprefixer')
   const cssnano = require('cssnano')
   const {VueLoaderPlugin} = require('vue-loader')
-  const HtmlWebpackPlugin = require('html-webpack-plugin');
+  const HtmlWebpackPlugin = require('html-webpack-plugin')
 
   return {
     output: {
@@ -39,7 +39,7 @@ module.exports = (env, argv) => {
         'VERSION': JSON.stringify(packageJson.version)
       }),
       new HtmlWebpackPlugin({
-        template: './src/index.html',
+        template: './src/index.html'
       }),
       production ? new CleanWebpackPlugin([resultPath + '/*'], {allowExternal: true}) : []
     ),
@@ -67,17 +67,24 @@ module.exports = (env, argv) => {
         loader: 'babel-loader'
       }, {
         test: /\.s?css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', {
-          loader: 'postcss-loader',
-          options: {
-            plugins: production ? [autoprefixer, cssnano] : []
-          }
-        }, {
-          loader: 'fast-sass-loader',
-          options: {
-            sourceMap: true
-          }
-        }]
+        use: [MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: !production
+            }
+          }, {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: production ? false : 'inline',
+              plugins: production ? [autoprefixer, cssnano] : []
+            }
+          }, {
+            loader: production ? 'fast-sass-loader' : 'sass-loader',
+            options: {
+              sourceMap: !production
+            }
+          }]
       }, {
         test: /icons.+\.svg$/,
         use: [].concat({

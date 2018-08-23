@@ -1,5 +1,3 @@
-@import 'variables';
-@import '~foundation-sites/scss/foundation';
 
 //@include foundation-global-styles;
 //@include foundation-grid;
@@ -51,3 +49,4 @@
 
 // Custom styles
 
+@import './components/h1';
