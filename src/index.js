@@ -27,7 +27,7 @@ if (PRODUCTION) {
       'height: 39px;' +
       'background: rgba(255,235,50,0.5);' +
       'position:absolute;' +
-      'zIndex: 55555;' +
+      'z-index: 55555;' +
       'top:0;' +
       'text-align:center;' +
       'line-height:39px;' +

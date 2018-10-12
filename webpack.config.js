@@ -12,7 +12,7 @@ module.exports = (env, argv) => {
   const CopyWebpackPlugin = require('copy-webpack-plugin')
   // const WebpackFtpUpload = require('webpack-ftp-upload-plugin')
   const autoprefixer = require('autoprefixer')
-  const cssnano = require('cssnano')
+  const cssnano = require('cssnano')({ zindex: false })
   const {VueLoaderPlugin} = require('vue-loader')
   const HtmlWebpackPlugin = require('html-webpack-plugin')
 
