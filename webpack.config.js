@@ -30,7 +30,10 @@ module.exports = (env, argv) => {
       }
     },
     plugins: [].concat(
-      new MiniCssExtractPlugin({filename: 'app.css'}),
+      new MiniCssExtractPlugin({
+        filename: 'app.css',
+        chunkFilename: "[id].css"
+      }),
       new CopyWebpackPlugin([{from: 'static', to: '.'}]),
       new VueLoaderPlugin(),
       new webpack.DefinePlugin({
@@ -67,7 +70,10 @@ module.exports = (env, argv) => {
         loader: 'babel-loader'
       }, {
         test: /\.s?css$/,
-        use: [MiniCssExtractPlugin.loader,
+        use: [{
+          loader: MiniCssExtractPlugin.loader,
+          options: {}
+        },
           {
             loader: 'css-loader',
             options: {
@@ -79,10 +85,16 @@ module.exports = (env, argv) => {
               sourceMap: production ? false : 'inline',
               plugins: production ? [autoprefixer, cssnano] : []
             }
-          }, {
-            loader: production ? 'fast-sass-loader' : 'sass-loader',
+          },{
+            loader: 'resolve-url-loader',
             options: {
-              sourceMap: !production
+              sourceMap: production,
+            }
+          }, {
+            loader: production ? 'sass-loader' : 'fast-sass-loader',
+            options: {
+              sourceMap: production,
+              sourceMapContents: false
             }
           }]
       }, {
@@ -107,7 +119,9 @@ module.exports = (env, argv) => {
           },
           production ? [{
             loader: 'image-webpack-loader',
-            options: {}
+            options: {
+              disable: true
+            }
           }] : [])
       }, {
         test: /font.+\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
