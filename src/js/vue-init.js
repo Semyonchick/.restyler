@@ -14,10 +14,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (component.el) {
       let elements = document.querySelectorAll(component.el)
       if (elements.length) {
-        elements.forEach(element => {
-          component.el = element
+        for (let i in elements) {
+          component.el = elements[i]
           new Vue(component)
-        })
+        }
       }
       return
     }

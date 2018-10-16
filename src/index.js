@@ -5,6 +5,8 @@ import './style/app.scss'
 // Uncomment for use sprite
 // import './js/svg-include'
 
+import modernizr from './.modernizrrc';
+
 if (PRODUCTION) {
   window.onerror = (a, b, c, d, e) => {
     if (window.JSON) {

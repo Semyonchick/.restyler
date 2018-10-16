@@ -12,7 +12,7 @@ module.exports = (env, argv) => {
   const CopyWebpackPlugin = require('copy-webpack-plugin')
   // const WebpackFtpUpload = require('webpack-ftp-upload-plugin')
   const autoprefixer = require('autoprefixer')
-  const cssnano = require('cssnano')({ zindex: false })
+  const cssnano = require('cssnano')({zindex: false})
   const {VueLoaderPlugin} = require('vue-loader')
   const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -32,7 +32,7 @@ module.exports = (env, argv) => {
     plugins: [].concat(
       new MiniCssExtractPlugin({
         filename: 'app.css',
-        chunkFilename: "[id].css"
+        chunkFilename: '[id].css'
       }),
       new CopyWebpackPlugin([{from: 'static', to: '.'}]),
       new VueLoaderPlugin(),
@@ -53,6 +53,9 @@ module.exports = (env, argv) => {
     },
     module: {
       rules: [{
+        loader: 'modernizr-loader',
+        test: /\.modernizrrc\.js$/
+      }, {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
@@ -60,15 +63,18 @@ module.exports = (env, argv) => {
             js: 'babel-loader',
             scss: 'fast-sass-loader',
             options: {
-              sourceMap: true
+              sourceMap: !production
             }
           }
         }
-      }, {
+      }, production ? {
         test: /\.js?$/,
         exclude: /(node_modules)/,
-        loader: 'babel-loader'
-      }, {
+        loader: 'babel-loader',
+        options: {
+          sourceMap: !production
+        }
+      }:{}, {
         test: /\.s?css$/,
         use: [{
           loader: MiniCssExtractPlugin.loader,
@@ -85,10 +91,10 @@ module.exports = (env, argv) => {
               sourceMap: production ? false : 'inline',
               plugins: production ? [autoprefixer, cssnano] : []
             }
-          },{
+          }, {
             loader: 'resolve-url-loader',
             options: {
-              sourceMap: production,
+              sourceMap: production
             }
           }, {
             loader: production ? 'sass-loader' : 'fast-sass-loader',
