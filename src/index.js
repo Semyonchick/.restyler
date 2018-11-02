@@ -1,4 +1,5 @@
 import './style/app.scss'
+import 'babel-polyfill';
 // import './js/app'
 // Uncomment for use vue
 // import './js/vue-init'

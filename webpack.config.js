@@ -6,7 +6,7 @@ module.exports = (env, argv) => {
 
   const path = require('path')
   const webpack = require('webpack')
-  const resultPath = path.resolve(__dirname, config.dir)
+  const resultPath = path.resolve(__dirname, config.dir || './build')
   const MiniCssExtractPlugin = require('mini-css-extract-plugin')
   const CleanWebpackPlugin = require('clean-webpack-plugin')
   const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -69,7 +69,7 @@ module.exports = (env, argv) => {
         }
       }, production ? {
         test: /\.js?$/,
-        exclude: /(node_modules)/,
+        // exclude: /(node_modules)/,
         loader: 'babel-loader',
         options: {
           sourceMap: !production

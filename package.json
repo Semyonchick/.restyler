@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "foundation-sites": "^6.4.3",
     "modernizr": "^3.6.0",
     "swiper": "^4.4.1",
