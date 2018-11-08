@@ -61,7 +61,7 @@ module.exports = (env, argv) => {
         options: {
           loaders: {
             js: 'babel-loader',
-            scss: 'fast-sass-loader',
+            scss: 'sass-loader',
             options: {
               sourceMap: !production
             }
@@ -97,7 +97,7 @@ module.exports = (env, argv) => {
               sourceMap: production
             }
           }, {
-            loader: production ? 'sass-loader' : 'fast-sass-loader',
+            loader:'sass-loader',
             options: {
               sourceMap: production,
               sourceMapContents: false
