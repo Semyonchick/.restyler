@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run watch",
     "dev": "webpack --mode development",
-    "watch": "webpack-dev-server --mode development",
+    "watch": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production --optimize-minimize"
   },
   "browserslist": [
