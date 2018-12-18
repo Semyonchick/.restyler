@@ -44,7 +44,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './src/index.html'
       }),
-      production ? new CleanWebpackPlugin([resultPath + '/*'], {allowExternal: true}) : []
+      production ? new CleanWebpackPlugin([resultPath + '/*'], {allowExternal: true, beforeEmit:true}) : []
     ),
     resolve: {
       alias: {
