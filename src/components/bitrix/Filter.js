@@ -1,7 +1,7 @@
 import vueSlider from 'vue-slider-component'
 
 export default {
-  el: '.filter',
+  el: '#filter',
   components: {
     vueSlider
   },
