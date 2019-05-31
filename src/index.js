@@ -4,7 +4,7 @@ import 'babel-polyfill';
 // Uncomment for use vue
 // import './js/vue-init'
 // Uncomment for use sprite
-// import './js/svg-include'
+import './js/svg-include'
 
 import modernizr from './.modernizrrc';
 
