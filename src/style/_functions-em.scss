@@ -1,0 +1,12 @@
+@function em-calc($values, $base-value: $global-font-size) {
+  $remValues: rem-calc($values, $base-value);
+  $max: length($remValues);
+
+  @if $max == 1 { @return strip-unit(nth($remValues, 1)) * 1em; }
+
+  $emValues: ();
+  @for $i from 1 through $max {
+    $emValues: append($emValues, strip-unit(nth($remValues, $i)) * 1em);
+  }
+  @return $emValues;
+}
