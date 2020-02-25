@@ -1,5 +1,5 @@
 module.exports = {
-  // 'dir': '../local/templates/../assets', // Path from this dir
+  dir: '/local/templates/r-dark-20/assets', // Path from parent dir
   'ftp': {
     // 'host': '',
     // 'port': '22',
@@ -8,4 +8,4 @@ module.exports = {
     // 'path': '',
     // 'passive': true
   }
-}
+};

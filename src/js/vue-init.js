@@ -1,26 +1,18 @@
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import Vue from 'vue';
 
-const vueComponents = []
+const vueComponents = [];
+vueComponents.push({el: '[data-vue]'});
 
-Vue.use(VueAxios, axios.create({
-  baseURL: ''
-}))
-
-
-document.addEventListener('DOMContentLoaded', function () {
+export default () => {
   vueComponents.forEach(component => {
     if (component.el) {
-      let elements = document.querySelectorAll(component.el)
-      if (elements.length) {
-        for (let i in elements) {
-          component.el = elements[i]
-          new Vue(component)
-        }
+      for (let element of document.querySelectorAll(component.el)) {
+        component.el = element;
+        element.removeAttribute('data-vue');
+        new Vue(component);
       }
-      return
+    } else {
+      new Vue(component);
     }
-    new Vue(component)
-  })
-})
+  });
+};
