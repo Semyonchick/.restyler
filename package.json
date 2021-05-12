@@ -28,7 +28,7 @@
     "pug": "^2.0.4",
     "pug-html-loader": "^1.1.5",
     "pug-loader": "^2.4.0",
-    "swiper": "^4.5.1",
+    "swiper": "^6.5.1",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5"
   },
