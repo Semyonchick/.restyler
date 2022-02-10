@@ -51,7 +51,7 @@
     "lodash": "^4.17.19",
     "mini-css-extract-plugin": "^0.4.5",
     "modernizr-loader": "^1.0.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "portfinder-sync": "0.0.2",
     "postcss-loader": "^2.1.6",
     "pug": "^2.0.4",
