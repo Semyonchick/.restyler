@@ -58,7 +58,7 @@
     "pug-html-loader": "^1.1.5",
     "resolve-url-loader": "^2.3.2",
     "sass-loader": "^6.0.7",
-    "simple-git": "^1.126.0",
+    "simple-git": "^3.3.0",
     "sprite-loader": "^0.3.7",
     "static-eval": "^2.0.2",
     "style-loader": "^0.20.3",
