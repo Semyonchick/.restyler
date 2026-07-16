@@ -32,6 +32,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build
+        id: build
         shell: bash
         env:
           NODE_OPTIONS: --openssl-legacy-provider
@@ -39,11 +40,21 @@ jobs:
           set +e
           npm run build > build.log 2>&1
           status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
           echo "===== Build summary ====="
           grep -Ei "error|failed|exception|module build failed|cannot find|not found|syntaxerror|typeerror" build.log | tail -n 80 || true
           echo "===== Last 120 build log lines ====="
           tail -n 120 build.log
           exit $status
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: restyler-build-log
+          path: build.log
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
