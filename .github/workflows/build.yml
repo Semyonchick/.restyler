@@ -15,8 +15,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    env:
-      NODE_OPTIONS: --openssl-legacy-provider
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,7 +32,18 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build
-        run: npm run build
+        shell: bash
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+        run: |
+          set +e
+          npm run build > build.log 2>&1
+          status=$?
+          echo "===== Build summary ====="
+          grep -Ei "error|failed|exception|module build failed|cannot find|not found|syntaxerror|typeerror" build.log | tail -n 80 || true
+          echo "===== Last 120 build log lines ====="
+          tail -n 120 build.log
+          exit $status
 
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
