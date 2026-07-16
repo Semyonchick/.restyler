@@ -57,4 +57,21 @@ jobs:
           retention-days: 7
 
       - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
+        id: audit
+        shell: bash
+        run: |
+          set +e
+          npm audit --omit=dev --json > audit.log
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          npm audit --omit=dev || true
+          exit $status
+
+      - name: Upload audit log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: restyler-audit-log
+          path: audit.log
+          if-no-files-found: error
+          retention-days: 7
