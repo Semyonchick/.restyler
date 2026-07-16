@@ -164,8 +164,7 @@ module.exports = (env, argv) => {
         }, {
           loader: 'sass-loader',
           options: {
-            sourceMap: production,
-            sourceMapContents: false
+            sourceMap: production
           }
         }]
       }, {
