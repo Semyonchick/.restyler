@@ -25,12 +25,12 @@
     "babel-polyfill": "^6.26.0",
     "bulma": "^0.7.5",
     "bulma-extensions": "^3.0.0",
-    "modernizr": "^3.8.0",
+    "modernizr": "^3.13.1",
     "pug": "^3.0.3",
     "pug-html-loader": "^1.1.5",
     "pug-loader": "^2.4.0",
     "swiper": "^11.2.10",
-    "vue": "^2.6.14",
+    "vue": "^2.7.16",
     "vue-axios": "^2.1.5"
   },
   "devDependencies": {
@@ -71,7 +71,7 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^1.1.2",
     "vue-loader": "^15.7.2",
-    "vue-template-compiler": "^2.6.14",
+    "vue-template-compiler": "^2.7.16",
     "web-webpack-plugin": "^4.6.7",
     "webpack": "^4.47.0",
     "webpack-bundle-analyzer": "^3.6.0",
