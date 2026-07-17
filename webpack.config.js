@@ -174,7 +174,7 @@ module.exports = (env = {}, argv = {}) => {
         use: [{
           loader: 'svg-sprite-loader',
           options: {}
-        }, 'svg-fill-loader']
+        }]
       }, {
         test: /\.(png|jpe?g|gif)(\?.*)?$/,
         use: [{
