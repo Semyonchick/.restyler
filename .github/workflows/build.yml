@@ -10,7 +10,7 @@ on:
       - master
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -30,6 +30,19 @@ jobs:
 
       - name: Install dependencies and refresh lockfile
         run: npm install --include=dev --legacy-peer-deps
+
+      - name: Commit refreshed lockfile
+        if: github.event_name == 'push' && github.actor != 'github-actions[bot]'
+        shell: bash
+        run: |
+          if git diff --quiet -- package-lock.json; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git commit -m "chore(deps): refresh npm 11 lockfile"
+          git push
 
       - name: Upload refreshed lockfile
         uses: actions/upload-artifact@v4
