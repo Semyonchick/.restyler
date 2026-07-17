@@ -45,16 +45,9 @@ module.exports = (env, argv) => {
       polyfill: ['babel-polyfill']
     },
     optimization: {
-      // minimizer: [new UglifyJsPlugin()],
       splitChunks: {
         chunks (chunk) {
-        }        //   cacheGroups: {
-        //     commons: {
-        //       test: /[\\/]node_modules[\\/]/,
-        //       name: 'vendors',
-        //       chunks: 'all'
-        //     }
-        //   }
+        }
       }
     },
     performance: {
@@ -64,11 +57,8 @@ module.exports = (env, argv) => {
     output: {
       filename: '[name].js',
       chunkFilename: '[name].[hash].js',
-      // filename: 'app.js',
-      // chunkFilename: '[name].js',
       path: production ? resultPath : '/',
       publicPath: production ? publicPath : '//localhost:' + port + '/',
-      // library: 'rere',
       futureEmitAssets: true
     },
     devtool: production ? false : 'inline-source-map',
@@ -76,11 +66,6 @@ module.exports = (env, argv) => {
       disableHostCheck: true,
       https: true,
       port: port,
-      // before (app) {
-      //   app.post('*', (req, res) => {
-      //     res.redirect(req.originalUrl);
-      //   });
-      // },
       headers: {
         'Access-Control-Allow-Origin': 'localhost:' + port,
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -132,10 +117,9 @@ module.exports = (env, argv) => {
         }
       }, {
         test: /\.pug$/,
-        use: 'pug-loader'
+        use: 'pug-html-loader'
       }, production ? {
         test: /\.js?$/,
-        // exclude: /(node_modules)/,
         loader: 'babel-loader',
         options: {
           sourceMap: !production
