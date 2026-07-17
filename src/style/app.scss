@@ -1,8 +1,39 @@
-@import 'variables';
-@import '~bulma/bulma.sass';
+@use 'variables' as *;
+@use 'bulma/sass/utilities' with (
+  $success: $success
+);
+@use 'bulma/sass/themes';
+@use 'bulma/sass/base/minireset';
+@use 'bulma/sass/base/generic' with (
+  $body-background-color: $body-background-color,
+  $body-color: $body-color
+);
+@use 'bulma/sass/base/animations';
+@use 'bulma/sass/elements/button';
+@use 'bulma/sass/elements/icon';
+@use 'bulma/sass/elements/image';
+@use 'bulma/sass/elements/title' with (
+  $title-color: $title-color
+);
+@use 'bulma/sass/components/card';
+@use 'bulma/sass/components/dropdown';
+@use 'bulma/sass/components/message';
+@use 'bulma/sass/components/navbar' with (
+  $navbar-background-color: $navbar-background-color,
+  $navbar-burger-color: $navbar-burger-color
+);
+@use 'bulma/sass/grid/columns' with (
+  $column-gap: $column-gap
+);
+@use 'bulma/sass/layout/container';
+@use 'bulma/sass/layout/footer';
+@use 'bulma/sass/layout/section' with (
+  $section-padding: $section-padding
+);
+@use 'bulma/sass/helpers/color';
 //@import "global";
 // Custom styles
-@import 'components/header';
+@use 'components/header';
 
 //body{
 //  background: #424242;

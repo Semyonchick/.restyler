@@ -11,6 +11,7 @@ module.exports = (env = {}, argv = {}) => {
   const webpack = require('webpack');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
   const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+  const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin').default;
   const {VueLoaderPlugin} = require('vue-loader');
   const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
   const autoprefixer = require('autoprefixer');
@@ -28,32 +29,32 @@ module.exports = (env = {}, argv = {}) => {
     }
 
     apply (compiler) {
-      compiler.hooks.emit.tapAsync('StaticCopyPlugin', (compilation, callback) => {
+      compiler.hooks.thisCompilation.tap('StaticCopyPlugin', compilation => {
         const sourceRoot = path.resolve(__dirname, this.sourceDirectory);
         if (!fs.existsSync(sourceRoot)) {
-          callback();
           return;
         }
 
-        const addDirectory = (directory) => {
-          fs.readdirSync(directory, {withFileTypes: true}).forEach(entry => {
-            const absolutePath = path.join(directory, entry.name);
-            if (entry.isDirectory()) {
-              addDirectory(absolutePath);
-              return;
-            }
+        compilation.hooks.processAssets.tap({
+          name: 'StaticCopyPlugin',
+          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONS
+        }, () => {
+          const addDirectory = (directory) => {
+            fs.readdirSync(directory, {withFileTypes: true}).forEach(entry => {
+              const absolutePath = path.join(directory, entry.name);
+              if (entry.isDirectory()) {
+                addDirectory(absolutePath);
+                return;
+              }
 
-            const relativePath = path.relative(sourceRoot, absolutePath).split(path.sep).join('/');
-            const content = fs.readFileSync(absolutePath);
-            compilation.assets[relativePath] = {
-              source: () => content,
-              size: () => content.length
-            };
-          });
-        };
+              const relativePath = path.relative(sourceRoot, absolutePath).split(path.sep).join('/');
+              const content = fs.readFileSync(absolutePath);
+              compilation.emitAsset(relativePath, new webpack.sources.RawSource(content));
+            });
+          };
 
-        addDirectory(sourceRoot);
-        callback();
+          addDirectory(sourceRoot);
+        });
       });
     }
   }
@@ -129,8 +130,7 @@ module.exports = (env = {}, argv = {}) => {
       filename: '[name].js',
       chunkFilename: '[name].[hash].js',
       path: production ? resultPath : '/',
-      publicPath: production ? publicPath : developmentUrl,
-      futureEmitAssets: true
+      publicPath: production ? publicPath : developmentUrl
     },
     devtool: production ? false : 'inline-source-map',
     devServer,
@@ -140,6 +140,11 @@ module.exports = (env = {}, argv = {}) => {
         chunkFilename: '[id].css'
       }),
       new StaticCopyPlugin('static'),
+      new SVGSpritemapPlugin('src/icons/*.svg', {
+        sprite: {
+          prefix: false
+        }
+      }),
       new VueLoaderPlugin(),
       new webpack.DefinePlugin({
         'DIR': JSON.stringify(production ? config.dir + '/' : developmentUrl),
@@ -212,14 +217,12 @@ module.exports = (env = {}, argv = {}) => {
         }, {
           loader: 'sass-loader',
           options: {
-            sourceMap: production
+            sourceMap: production,
+            api: 'modern',
+            sassOptions: {
+              quietDeps: true
+            }
           }
-        }]
-      }, {
-        test: /icons.+\.svg$/,
-        use: [{
-          loader: 'svg-sprite-loader',
-          options: {}
         }]
       }, {
         test: /\.(png|jpe?g|gif)(\?.*)?$/,
