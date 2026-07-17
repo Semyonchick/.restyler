@@ -9,8 +9,6 @@ module.exports = (env = {}, argv = {}) => {
   const fs = require('fs');
   const path = require('path');
   const webpack = require('webpack');
-  const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-  const CopyWebpackPlugin = require('copy-webpack-plugin');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
   const MiniCssExtractPlugin = require('mini-css-extract-plugin');
   const {VueLoaderPlugin} = require('vue-loader');
@@ -23,6 +21,60 @@ module.exports = (env = {}, argv = {}) => {
   const resultPath = path.resolve(__dirname, '..' + publicPath);
   const port = require('portfinder-sync').getPort(8080);
   const developmentUrl = 'https://localhost:' + port + '/';
+
+  class StaticCopyPlugin {
+    constructor (sourceDirectory) {
+      this.sourceDirectory = sourceDirectory;
+    }
+
+    apply (compiler) {
+      compiler.hooks.emit.tapAsync('StaticCopyPlugin', (compilation, callback) => {
+        const sourceRoot = path.resolve(__dirname, this.sourceDirectory);
+        if (!fs.existsSync(sourceRoot)) {
+          callback();
+          return;
+        }
+
+        const addDirectory = (directory) => {
+          fs.readdirSync(directory, {withFileTypes: true}).forEach(entry => {
+            const absolutePath = path.join(directory, entry.name);
+            if (entry.isDirectory()) {
+              addDirectory(absolutePath);
+              return;
+            }
+
+            const relativePath = path.relative(sourceRoot, absolutePath).split(path.sep).join('/');
+            const content = fs.readFileSync(absolutePath);
+            compilation.assets[relativePath] = {
+              source: () => content,
+              size: () => content.length
+            };
+          });
+        };
+
+        addDirectory(sourceRoot);
+        callback();
+      });
+    }
+  }
+
+  class CleanOutputPlugin {
+    constructor (outputDirectory) {
+      this.outputDirectory = outputDirectory;
+    }
+
+    apply (compiler) {
+      compiler.hooks.beforeRun.tap('CleanOutputPlugin', () => {
+        if (!fs.existsSync(this.outputDirectory)) {
+          return;
+        }
+
+        fs.readdirSync(this.outputDirectory).forEach(item => {
+          fs.rmSync(path.join(this.outputDirectory, item), {recursive: true, force: true});
+        });
+      });
+    }
+  }
 
   function generateHtmlPlugins (templateDir) {
     const templates = fs.readdirSync(path.resolve(__dirname, templateDir));
@@ -87,9 +139,7 @@ module.exports = (env = {}, argv = {}) => {
         filename: '[name].css',
         chunkFilename: '[id].css'
       }),
-      new CopyWebpackPlugin({
-        patterns: [{from: 'static', to: '.'}]
-      }),
+      new StaticCopyPlugin('static'),
       new VueLoaderPlugin(),
       new webpack.DefinePlugin({
         'DIR': JSON.stringify(production ? config.dir + '/' : developmentUrl),
@@ -98,11 +148,7 @@ module.exports = (env = {}, argv = {}) => {
       }),
       production ? [] : htmlPlugins,
       analyze ? new BundleAnalyzerPlugin() : [],
-      production ? new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: [resultPath + '/*'],
-        dangerouslyAllowCleanPatternsOutsideProject: true,
-        dry: false
-      }) : [],
+      production ? new CleanOutputPlugin(resultPath) : [],
       production ? {
         apply: (compiler) => {
           compiler.hooks.done.tap('Git', () => {
