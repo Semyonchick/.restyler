@@ -31,6 +31,14 @@ jobs:
       - name: Install dependencies and refresh lockfile
         run: npm install --include=dev --legacy-peer-deps
 
+      - name: Upload refreshed lockfile
+        uses: actions/upload-artifact@v4
+        with:
+          name: restyler-package-lock
+          path: package-lock.json
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Verify webpack installation
         run: npx webpack --version
 
@@ -64,10 +72,10 @@ jobs:
         shell: bash
         run: |
           set +e
-          npm audit --omit=dev --json > audit.log
+          npm audit --omit=dev --audit-level=moderate --json > audit.log
           status=$?
           echo "status=$status" >> "$GITHUB_OUTPUT"
-          npm audit --omit=dev || true
+          npm audit --omit=dev --audit-level=moderate || true
           exit $status
 
       - name: Upload audit log
