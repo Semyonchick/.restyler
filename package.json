@@ -12,7 +12,8 @@
   "scripts": {
     "start": "npm run watch",
     "dev": "webpack --mode development",
-    "watch": "webpack-dev-server --mode development --open",
+    "cert": "node scripts/create-local-certificate.js",
+    "watch": "node scripts/check-local-certificate.js && webpack-dev-server --mode development --open --https --key .cert/localhost-key.pem --cert .cert/localhost.pem",
     "build": "webpack --mode production",
     "audit": "npm audit --audit-level=moderate"
   },

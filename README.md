@@ -54,6 +54,7 @@ npm ci --legacy-peer-deps
 ## Команды
 
 ```bash
+npm run cert    # создать и зарегистрировать доверенный сертификат localhost
 npm run watch   # HTTPS dev-server с live reload
 npm run dev     # development-сборка
 npm run build   # production-сборка
@@ -87,7 +88,17 @@ module.exports = {
 
 ## Development-режим
 
-`npm run watch` выбирает первый свободный порт начиная с `8080` и отдаёт файлы по HTTPS:
+`npm run watch` работает только по HTTPS. Перед первым запуском установите `mkcert` и один раз создайте доверенный локальный сертификат:
+
+```powershell
+choco install mkcert
+npm run cert
+npm run watch
+```
+
+Вместо Chocolatey в Windows можно использовать `scoop install mkcert`. Команда `npm run cert` добавляет локальный центр сертификации в системное хранилище и создаёт сертификат для `localhost`, `127.0.0.1` и `::1` в каталоге `.cert/`. Закрытый ключ и сертификат не добавляются в Git.
+
+Dev-server выбирает первый свободный порт начиная с `8080`:
 
 ```text
 https://localhost:8080/app.css
@@ -117,9 +128,10 @@ $assetPath = $USER->IsAdmin() && !empty($_SESSION['DEV'])
 2. Сравнить локальный `build.config.js` и не перезаписывать его чужим конфигом.
 3. Обновить файлы ReStyler, сохранив проектные `src` и `static`.
 4. Выполнить `npm install --legacy-peer-deps`.
-5. Проверить `npm run build`.
-6. Сравнить набор и имена выходных файлов.
-7. Проверить `npm run watch` и подключение через `?dev=PORT`.
-8. Только после проверки зафиксировать новый lock-файл.
+5. Выполнить `npm run cert` один раз на рабочей машине.
+6. Проверить `npm run build`.
+7. Сравнить набор и имена выходных файлов.
+8. Проверить `npm run watch` и подключение через `?dev=PORT`.
+9. Только после проверки зафиксировать новый lock-файл.
 
 Переход на Node.js 24 является обновлением среды сборки, но не миграцией приложения на Vue 3/Vite.
