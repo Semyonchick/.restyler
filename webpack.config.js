@@ -132,7 +132,7 @@ module.exports = (env, argv) => {
         }
       }, {
         test: /\.pug$/,
-        use: 'pug-loader'
+        use: '@webdiscus/pug-loader'
       }, production ? {
         test: /\.js?$/,
         // exclude: /(node_modules)/,
