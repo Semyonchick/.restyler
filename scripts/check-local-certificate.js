@@ -7,6 +7,6 @@ const certificatePath = resolve(__dirname, '..', '.cert', 'localhost.pem');
 const certificateKeyPath = resolve(__dirname, '..', '.cert', 'localhost-key.pem');
 
 if (!existsSync(certificatePath) || !existsSync(certificateKeyPath)) {
-  console.error('Trusted localhost certificate is missing. Run npm run cert.');
+  console.error('Trusted localhost certificate is missing. Run yarn cert.');
   process.exit(1);
 }

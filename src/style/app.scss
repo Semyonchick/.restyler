@@ -1,155 +1,50 @@
 @use 'variables' as *;
-@use 'bulma/sass/utilities' with (
-  $success: $success
-);
-@use 'bulma/sass/themes';
-@use 'bulma/sass/base/minireset';
-@use 'bulma/sass/base/generic' with (
-  $body-background-color: $body-background-color,
-  $body-color: $body-color
-);
-@use 'bulma/sass/base/animations';
-@use 'bulma/sass/elements/button';
-@use 'bulma/sass/elements/icon';
-@use 'bulma/sass/elements/image';
-@use 'bulma/sass/elements/title' with (
-  $title-color: $title-color
-);
-@use 'bulma/sass/components/card';
-@use 'bulma/sass/components/dropdown';
-@use 'bulma/sass/components/message';
-@use 'bulma/sass/components/navbar' with (
-  $navbar-background-color: $navbar-background-color,
-  $navbar-burger-color: $navbar-burger-color
-);
-@use 'bulma/sass/grid/columns' with (
-  $column-gap: $column-gap
-);
-@use 'bulma/sass/layout/container';
-@use 'bulma/sass/layout/footer';
-@use 'bulma/sass/layout/section' with (
-  $section-padding: $section-padding
-);
-@use 'bulma/sass/helpers/color';
-//@import "global";
-// Custom styles
-@use 'components/header';
 
-//body{
-//  background: #424242;
-//}
-
-.alert {
-  border: 2px solid $primary-color;
-  border-radius: 10px;
-  padding: 30px 20px;
-  max-width: 90%;
-  margin: auto;
-  background: rgba(0, 0, 0, 0.8);
-  text-align: center;
-  .title {
-    padding-bottom: 1rem;
-  }
-  hr {
-    background-color: $primary-color;
-    margin: 1rem 0;
-  }
-  .desc {
-    padding: 1rem 0;
-  }
-  .actions {
-    margin-top: 1rem;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-.ico-auth {
-  height: 30px;
-  width: 30px;
+html {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
 }
 
-.logo {
-  height: 15px;
-  width: 200px;
+body {
+  min-width: 320px;
+  margin: 0;
+  color: $text-color;
+  background: $back-color;
 }
 
-.filter {
-  padding: 0 0.4rem;
+img,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-.cards {
-  .image {
-    position: relative;
-  }
-  .title {
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0;
-  }
-  .card {
-    box-shadow: 1px 0 1px black;
-    background: black;
-    color: white;
-    font-size: 12px;
-    .title {
-      font-size: 12px;
-    }
-  }
-  .info {
-    padding: 5px;
-  }
-  .popup {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    //padding: 5px;
-    font-size: 10px;
-    line-height: 1.3;
-    text-align: center;
-    svg {
-      display: inline-block;
-      vertical-align: bottom;
-    }
-    div {
-      padding: 2px 5px;
-      margin-bottom: 5px;
-    }
-    &__phone {
-      background: #378037;
-    }
-    &__free {
-      background: red;
-    }
-    &__work {
-      background: #e20883;
-    }
-    &__notwork {
-      background: #afb1b0;
-    }
-    &__time {
-      background: #834f91;
-    }
-    &__view {
-      background: #afb1b0;
-    }
-    &__photo {
-      background: #0689d7;
-    }
-  }
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }
 
-.card-list {
-  @media screen and (max-width: $tablet - 1px) {
-    overflow-x: auto
-  }
+.container {
+  width: min(100% - 2rem, 1200px);
+  margin-inline: auto;
 }
-.popup__view{
-  display: none;
-}
-.full-link{
+
+.visually-hidden {
   position: absolute;
-  left: 0;
-  right:0;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

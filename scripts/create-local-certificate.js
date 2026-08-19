@@ -17,7 +17,7 @@ function runMkcert (args) {
   if (result.error && result.error.code === 'ENOENT') {
     console.error('\nmkcert is not installed or is not available in PATH.');
     console.error('Windows: choco install mkcert  or  scoop install mkcert');
-    console.error('Then run: npm run cert');
+    console.error('Then run: yarn cert');
     process.exit(1);
   }
 
@@ -36,4 +36,4 @@ runMkcert([
 ]);
 
 console.log(`\nTrusted HTTPS certificate created in ${certificateDir}`);
-console.log('Run npm run watch.');
+console.log('Run yarn dev.');

@@ -1,23 +1,14 @@
 import './style/app.scss';
-// import 'babel-polyfill';
-import 'regenerator-runtime/runtime';
+import {mountSprite} from './js/svg-include.js';
+import {initLazyModules} from './js/lazy-modules.js';
 
-// Uncomment for use sprite
-import /* webpackChunkName: "svg" */ './js/svg-include';
-
-// Uncomment for use vue
-import vInit from './js/vue-init';
-
-function onPageLoad () {
-  // Uncomment for use app
-  require('./js/app');
-
-  // Uncomment for use vue
-  vInit();
-
-  if (!PRODUCTION) require('./js/plugins/devCloseButton');
-  // if (window.BX && BX.CWindow) import(/* webpackChunkName: "bx-scroll-fix" */'./js/plugins/bxScrollFix');
+async function start() {
+  await mountSprite();
+  initLazyModules();
 }
 
-if (document.body) onPageLoad();
-else document.addEventListener('DOMContentLoaded', onPageLoad);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', start, {once: true});
+} else {
+  start();
+}

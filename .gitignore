@@ -8,6 +8,13 @@
 out
 gen
 node_modules
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
 
 # Local trusted HTTPS certificates
 .cert/
